@@ -1,6 +1,6 @@
 // Mae Schweller
 // CompSci 210 data structures
-// lab 25
+// lab 26
 #include <iostream>
 #include <chrono>
 #include <vector>
