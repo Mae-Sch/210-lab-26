@@ -18,13 +18,13 @@ const string INSERT_STRING = "TESTCODE";
 int main() {
     srand(time(0));
 
+    cout << "Number of tests run: " << NUM_TESTS << endl;
     cout << "All times are measured in nanoseconds\n\n";
     cout << setw(15) << " "<< setw(15) << "Vector" << setw(15) << "List" << setw(15) << "Set" << endl;
-    cout << "Number of tests run: " << NUM_TESTS << endl;
 
     // First layer denotes test, second is for data types, third is for instance of test
     // ie. testResults[0][1][2] would mean reading -> list -> test instance #2
-    int testResults[3][3][NUM_TESTS];
+    int testResults[4][3][NUM_TESTS];
 
     for (int testNumber = 0; testNumber < NUM_TESTS; ++testNumber) {
         /// *** Reading Tests *** ///
@@ -44,7 +44,7 @@ int main() {
         auto VectReadEnd = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(VectReadEnd - VectReadStart);
         // cout << setw(15) << duration.count();
-        testResults[0][0][testNumber] = duration;
+        testResults[0][0][testNumber] = duration.count();
 
         // testing reading for list
         auto ListReadStart = high_resolution_clock::now();
@@ -59,7 +59,7 @@ int main() {
         auto ListReadEnd = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(ListReadEnd - ListReadStart);
         // cout << setw(15) << duration.count();
-        testResults[0][1][testNumber] = duration;
+        testResults[0][1][testNumber] = duration.count();
 
         // testing reading for set
         auto SetReadStart = high_resolution_clock::now();
@@ -74,7 +74,7 @@ int main() {
         auto SetReadEnd = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(SetReadEnd - SetReadStart);
         // cout << setw(15) << duration.count() << endl;
-        testResults[0][2][testNumber] = duration;
+        testResults[0][2][testNumber] = duration.count();
 
         /// *** Sorting Tests *** ///
 
@@ -86,7 +86,7 @@ int main() {
         auto end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
-        testResults[1][0][testNumber] = duration;
+        testResults[1][0][testNumber] = duration.count();
 
         // testing sorting for list
         start = high_resolution_clock::now();
@@ -94,7 +94,7 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
-        testResults[1][1][testNumber] = duration
+        testResults[1][1][testNumber] = duration.count();
 
         // sets are unsorted to we display -1 for the time
         // cout << setw(15) << -1 << endl;
@@ -110,6 +110,7 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
+        testResults[2][0][testNumber] = duration.count();
 
         // testing inserting for list
         start = high_resolution_clock::now();
@@ -119,6 +120,7 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
+        testResults[2][1][testNumber] = duration.count();
 
         // testing insert for set
         start = high_resolution_clock::now();
@@ -126,6 +128,7 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count() << endl;
+        testResults[2][2][testNumber] = duration.count();
 
         /// *** Testing Deleting *** ///
         // cout << setw(15) << "Deleting:";
@@ -136,6 +139,7 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
+        testResults[3][0][testNumber] = duration.count();
 
         // testing deleting for list
         start = high_resolution_clock::now();
@@ -145,6 +149,7 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
+        testResults[3][1][testNumber] = duration.count();
 
         // picking a "middle ish" element to delte to ensure proper testing;
         // adding 3 to make sure it isn't the lement we just inserted
@@ -156,14 +161,45 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count() << endl;
+        testResults[3][2][testNumber] = duration.count();
     }
+
+    cout << setw(15) << "Reading:";
+    for (int i = 0; i < 3; ++i) {
+        int sumTime = 0;
+        for (int j = 0; j < NUM_TESTS; ++j) {
+            sumTime += testResults[0][i][j];
+        }
+        cout << setw(15) << (sumTime / NUM_TESTS);
+    }
+
+    cout << setw(15) << "\nSorting:";
+    for (int i = 0; i < 3; ++i) {
+        int sumTime = 0;
+        for (int j = 0; j < NUM_TESTS; ++j) {
+            sumTime += testResults[1][i][j];
+        }
+        cout << setw(15) << (sumTime / NUM_TESTS);
+    }
+
+    cout << setw(15) << "\nInserting:";
+    for (int i = 0; i < 3; ++i) {
+        int sumTime = 0;
+        for (int j = 0; j < NUM_TESTS; ++j) {
+            sumTime += testResults[2][i][j];
+        }
+        cout << setw(15) << (sumTime / NUM_TESTS);
+    }
+
+    cout << setw(15) << "\nDeleting:";
+    for (int i = 0; i < 3; ++i) {
+        int sumTime = 0;
+        for (int j = 0; j < NUM_TESTS; ++j) {
+            sumTime += testResults[3][i][j];
+        }
+        cout << setw(15) << (sumTime / NUM_TESTS);
+    }
+    cout << endl;
 
     return 0;
 }
-
-/* syntax examples:
-auto start = high_resolution_clock::now()
-auto end = high_resolution_clock::now()
-auto duration = duration_cast<milliseconds>(end - start)
-duration.count() references elapsed milliseconds
-*/
