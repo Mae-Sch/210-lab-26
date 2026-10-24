@@ -199,7 +199,7 @@ int main() {
         }
         cout << setw(15) << (sumTime / NUM_TESTS);
     }
-    cout << endl;
+    cout << endl
 
     return 0;
 }
