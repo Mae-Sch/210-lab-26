@@ -20,11 +20,11 @@ int main() {
 
     cout << "All times are measured in nanoseconds\n\n";
     cout << setw(15) << " "<< setw(15) << "Vector" << setw(15) << "List" << setw(15) << "Set" << endl;
-    cout << "Number of tests run: " << NUM_TESTS;
+    cout << "Number of tests run: " << NUM_TESTS << endl;
 
     // First layer denotes test, second is for data types, third is for instance of test
     // ie. testResults[0][1][2] would mean reading -> list -> test instance #2
-    <vector<int> testResults;
+    int testResults[3][3][NUM_TESTS];
 
     for (int testNumber = 0; testNumber < NUM_TESTS; ++testNumber) {
         /// *** Reading Tests *** ///
@@ -44,7 +44,7 @@ int main() {
         auto VectReadEnd = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(VectReadEnd - VectReadStart);
         // cout << setw(15) << duration.count();
-        testResults.at(0).at(0).push_back(duration.count());
+        testResults[0][0][testNumber] = duration;
 
         // testing reading for list
         auto ListReadStart = high_resolution_clock::now();
@@ -59,6 +59,7 @@ int main() {
         auto ListReadEnd = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(ListReadEnd - ListReadStart);
         // cout << setw(15) << duration.count();
+        testResults[0][1][testNumber] = duration;
 
         // testing reading for set
         auto SetReadStart = high_resolution_clock::now();
@@ -73,10 +74,11 @@ int main() {
         auto SetReadEnd = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(SetReadEnd - SetReadStart);
         // cout << setw(15) << duration.count() << endl;
+        testResults[0][2][testNumber] = duration;
 
         /// *** Sorting Tests *** ///
 
-        cout << setw(15) << "Sorting:";
+        // cout << setw(15) << "Sorting:";
 
         // testing sorting for vectors
         auto start = high_resolution_clock::now();
@@ -84,6 +86,7 @@ int main() {
         auto end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
+        testResults[1][0][testNumber] = duration;
 
         // testing sorting for list
         start = high_resolution_clock::now();
@@ -91,9 +94,11 @@ int main() {
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
         // cout << setw(15) << duration.count();
+        testResults[1][1][testNumber] = duration
 
         // sets are unsorted to we display -1 for the time
         // cout << setw(15) << -1 << endl;
+        testResults[1][2][testNumber] = -1;
 
         /// *** Inserting Tests *** ///
 
