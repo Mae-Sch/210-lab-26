@@ -24,7 +24,7 @@ int main() {
 
     // First layer denotes test, second is for data types, third is for instance of test
     // ie. testResults[0][1][2] would mean reading -> list -> test instance #2
-    vector<vector<vector<duration>>> testResults;
+    <vector<int> testResults;
 
     for (int testNumber = 0; testNumber < NUM_TESTS; ++testNumber) {
         /// *** Reading Tests *** ///
@@ -44,7 +44,7 @@ int main() {
         auto VectReadEnd = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(VectReadEnd - VectReadStart);
         // cout << setw(15) << duration.count();
-        testResults[0][0].push_back(duration);
+        testResults.at(0).at(0).push_back(duration.count());
 
         // testing reading for list
         auto ListReadStart = high_resolution_clock::now();
